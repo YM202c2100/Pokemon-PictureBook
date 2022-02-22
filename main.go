@@ -8,9 +8,25 @@ import (
 	"strconv"
 	"sync"
 	"text/template"
+
+	"gopkg.in/ini.v1"
 )
 
-const N = 5
+type Config_list struct {
+	N int
+}
+
+var cfg Config_list
+
+func init() {
+	config, err := ini.Load("config.ini")
+	if err != nil {
+		log.Fatal(err)
+	}
+	cfg = Config_list{
+		N: config.Section("max_display").Key("n").MustInt(),
+	}
+}
 
 type Pokemon_info struct {
 	Id      int
@@ -85,9 +101,9 @@ func PokeAllHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pokes := make([]*Pokemon_info, N)
+	pokes := make([]*Pokemon_info, cfg.N)
 	wg := sync.WaitGroup{}
-	for i := 0; i < N; i++ {
+	for i := 0; i < cfg.N; i++ {
 		wg.Add(1)
 		go Fetch_info(i, pokes, &wg)
 	}

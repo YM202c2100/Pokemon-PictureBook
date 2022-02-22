@@ -74,7 +74,7 @@ func PokeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	poke := Getting_poke(num_int)
 
-	t, err := template.ParseFiles("poke.html")
+	t, err := template.ParseFiles("html/poke.html")
 	if err != nil {
 		log.Println(err)
 		return
@@ -94,8 +94,8 @@ func Fetch_info(i int, pokes []*Pokemon_info, wg *sync.WaitGroup) {
 	wg.Done()
 }
 
-func PokeAllHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("all.html")
+func PokeTableHandler(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("html/table.html")
 	if err != nil {
 		log.Println(err)
 		return
@@ -116,6 +116,6 @@ func PokeAllHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/poke/", PokeHandler)
-	http.HandleFunc("/poke/all", PokeAllHandler)
+	http.HandleFunc("/poke/table", PokeTableHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

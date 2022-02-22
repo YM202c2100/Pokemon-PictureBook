@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    {{range .}}
+    <form action="/poke/{{.Id}}">
+        <button type="submit">
+            <h3>{{.Name}}</h3>
+            <img src={{.Sprites.Front_default}} alt="front">
+        </button>
+    </form>
+    {{end}}
+</body>
+</html>

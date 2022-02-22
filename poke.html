@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h3>{{.Name}}</h3>
+    <img src={{.Sprites.Front_default}} alt="front">
+    <div>id: {{.Id}}</div>
+    <span>type:</span>{{range .Types}}<span>{{.Type.Name}} </span>{{end}}
+    <div>weight: {{.Weight}}</div>
+    <form action="/poke/all">
+        <button>一覧に戻る</button>
+    </form>
+</body>
+</html>

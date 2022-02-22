@@ -71,8 +71,9 @@ func PokeHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func Fetch_info(i int, ch chan *Pokemon_info, wg *sync.WaitGroup) {
-	ch <- Getting_poke(i)
+func Fetch_info(i int, pokes []*Pokemon_info, wg *sync.WaitGroup) {
+	poke := Getting_poke(i + 1)
+	pokes[i] = poke
 	wg.Done()
 }
 
@@ -84,19 +85,13 @@ func PokeAllHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pokes := make([]*Pokemon_info, N)
-	ch := make(chan *Pokemon_info, N)
 	wg := sync.WaitGroup{}
 	for i := 0; i < N; i++ {
 		wg.Add(1)
-		go Fetch_info(i+1, ch, &wg)
+		go Fetch_info(i, pokes, &wg)
 	}
 
 	wg.Wait()
-	close(ch)
-	for poke := range ch {
-		pokes[poke.Id-1] = poke
-	}
-
 	if err = t.Execute(w, pokes); err != nil {
 		log.Fatal(err)
 	}

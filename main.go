@@ -71,6 +71,7 @@ func PokeHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//No.がi+1のポケモンの情報を得る
 func Fetch_info(i int, pokes []*Pokemon_info, wg *sync.WaitGroup) {
 	poke := Getting_poke(i + 1)
 	pokes[i] = poke

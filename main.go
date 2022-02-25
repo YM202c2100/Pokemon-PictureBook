@@ -115,6 +115,7 @@ func PokeTableHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
 	http.HandleFunc("/poke/", PokeHandler)
 	http.HandleFunc("/poke/table", PokeTableHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
